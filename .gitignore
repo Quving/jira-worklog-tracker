@@ -343,4 +343,4 @@ tags
 #
 #
 worklogs.json
-*.csv
+exports/**

@@ -30,12 +30,12 @@ def track(username, token, server, projects, date_from, date_to):
         from_dt=datetime.datetime.combine(date_from, datetime.datetime.min.time()),
         to_dt=datetime.datetime.combine(date_to, datetime.datetime.min.time())
     )
-    print("{} worklogs found.".format(len(worklogs)))
+    print("{} worklogs found.".format(len([x for x in worklogs.values()])))
 
     worklog_time_spent = 0
-    for worklog in worklogs:
-        for wl2 in worklog['worklogs']:
-            worklog_time_spent += wl2['timeSpentSeconds']
+    for worklog in worklogs.values():
+        for wl in worklog:
+            worklog_time_spent += wl['timeSpentSeconds']
 
     # Print summary output
     print("=================================================================")
