@@ -53,6 +53,11 @@ Retrieve worklogs...	26 worklogs found.
 	Interval:	2021-05-01 to 2021-06-10
 	Time spent:	1185.0 min
 
+	Days:   	0
+	Hours:  	19
+	Minutes:	45
+	Seconds:	0
+
 =================================================================
 ```
 

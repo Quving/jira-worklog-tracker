@@ -42,7 +42,11 @@ def track(username, token, server, projects, date_from, date_to):
     print("\t\t\tSUMMARY\n")
     print("\tInterval:\t{} to {}".format(date_from.date(), date_to.date()))
     print("\tTime spent:\t{} min".format(worklog_time_spent / 60))
-    print()
+    days = worklog_time_spent // 86400
+    hours = worklog_time_spent // 3600 % 24
+    minutes = worklog_time_spent // 60 % 60
+    seconds = worklog_time_spent % 60
+    print("\n\tDays:   \t{}\n\tHours:  \t{}\n\tMinutes:\t{}\n\tSeconds:\t{}\n".format(days, hours, minutes, seconds))
     print("=================================================================")
 
 
