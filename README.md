@@ -37,7 +37,7 @@ or using Docker
 
 
 ```
-docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:latest \
+docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:v1.0.0 \
     -u "johndoe@hexample.com" \
     -t "3PHwqURul2qB3DjhDp0TAD3F" \
     -s "https://miao.atlassian.net/"  \
@@ -48,7 +48,7 @@ docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:l
 
 ### Sample Output
 ## CSV
-![](https://i.imgur.com/AfdHIDL.png)
+![](https://i.imgur.com/haq0KsG.png)
 
 ## Console
 ```
