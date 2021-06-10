@@ -5,6 +5,8 @@ WORKDIR /app
 ADD . .
 RUN pip install -r requirements.txt
 
+
+VOLUME /app/exports
 ENTRYPOINT ["python", "tracker.py"]
 CMD ["--help"]
 

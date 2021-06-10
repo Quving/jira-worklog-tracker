@@ -78,9 +78,6 @@ class JiraApi:
 
                 writer.writeheader()
                 for issue_id, worklog in worklogs.items():
-                    from pprint import pprint
-                    print()
-                    pprint(worklog)
                     writer.writerow({
                         fieldnames[0]: issue_id,
                         fieldnames[1]: sum([x['timeSpentSeconds'] / 60 for x in worklog])

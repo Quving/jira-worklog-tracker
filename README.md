@@ -33,12 +33,12 @@ or using Docker
 
 
 ```
-docker run --rm quving/jira-worklog-tracker:latest \
+docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:latest \
     -u "johndoe@hexample.com" \
     -t "3PHwqURul2qB3DjhDp0TAD3F" \
     -s "https://miao.atlassian.net/"  \
     -p "customer mobile app" \
-    -df "06.06.2021" \
+    -df "08.06.2021"     \
     -dt "09.06.2021"
 ```
 
