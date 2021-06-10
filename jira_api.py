@@ -81,7 +81,7 @@ class JiraApi:
                     writer.writerow({
                         fieldnames[0]: issue_id,
                         fieldnames[1]: issue['key'],
-                        fieldnames[2]: os.path.join(self.jira_server, 'browse', issue['key']),
+                        fieldnames[2]: os.path.join(self.jira_server, 'browse', issue['key'].lower()),
                         fieldnames[3]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
                     })
 
