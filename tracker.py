@@ -5,11 +5,12 @@ import datetime
 
 from jira import JIRA
 
-from jira_api import filter_worklogs_from_to, get_worklogs
+from jira_api import JiraApi
 
 
 def track(username, token, server, projects, date_from, date_to):
     jira = JIRA(server=server, basic_auth=(username, token))
+    jira_api = JiraApi(username=username, token=token, jira_server=server)
 
     print("Retrieve projects...")
     all_projects = jira.projects()
@@ -21,7 +22,6 @@ def track(username, token, server, projects, date_from, date_to):
         issues += jira.search_issues('project={} and assignee = currentUser()'.format(project.id), maxResults=10000)
 
     print("Retrieve worklogs...")
-    worklogs = get_worklogs(issues)
 
     # with open("worklogs.json", "w") as file:
     #     json.dump(worklogs, file, indent=4)
@@ -32,21 +32,22 @@ def track(username, token, server, projects, date_from, date_to):
     date_from = datetime.datetime.strptime(date_from, '%d.%m.%Y')
     date_to = datetime.datetime.strptime(date_to, '%d.%m.%Y')
 
-    worklogs = filter_worklogs_from_to(
-        worklogs=worklogs,
+    worklogs = jira_api.get_all_worklogs_from_issues_between(
+        issues=issues,
         from_dt=datetime.datetime.combine(date_from, datetime.datetime.min.time()),
         to_dt=datetime.datetime.combine(date_to, datetime.datetime.min.time())
     )
 
-    worklog_total = 0
+    worklog_time_spent = 0
     for worklog in worklogs:
         for wl2 in worklog['worklogs']:
-            worklog_total += wl2['timeSpentSeconds']
+            worklog_time_spent += wl2['timeSpentSeconds']
 
+    # Print summary output
     print("=================================================================")
     print("\t\t\t\tSUMMARY\n")
     print("\tInterval:\t{} to {}".format(date_from.date(), date_to.date()))
-    print("\tTime spent:\t{} min".format(worklog_total / 60))
+    print("\tTime spent:\t{} min".format(worklog_time_spent / 60))
     print()
     print("=================================================================")
 
