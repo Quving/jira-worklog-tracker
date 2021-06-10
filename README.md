@@ -53,17 +53,17 @@ docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:v
 ## Console
 ```
 Retrieve projects...	1 projects found.
-Retrieve issues...	44 issues found.
-Retrieve worklogs...	26 worklogs found.
+Retrieve issues...	45 issues found.
+Retrieve worklogs...	7 worklogs found.
 =================================================================
 			SUMMARY
 
-	Interval:	2021-05-01 to 2021-06-10
-	Time spent:	1185.0 min
+	Interval:	2021-06-08 to 2021-06-10
+	Time spent:	260.0 min
 
 	Days:   	0
-	Hours:  	19
-	Minutes:	45
+	Hours:  	4
+	Minutes:	20
 	Seconds:	0
 
 =================================================================
