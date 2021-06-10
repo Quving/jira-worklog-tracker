@@ -44,14 +44,14 @@ docker run --rm quving/jira-worklog-tracker:latest \
 
 ### Sample Output
 ```
-Retrieve projects...
-Retrieve issues...
-Retrieve worklogs...
+Retrieve projects...	1 projects found.
+Retrieve issues...	44 issues found.
+Retrieve worklogs...	26 worklogs found.
 =================================================================
-                           SUMMARY
+			SUMMARY
 
-    Interval:	  2021-06-08 to 2021-06-09
-    Time spent:	  670.0 min
+	Interval:	2021-05-01 to 2021-06-10
+	Time spent:	1185.0 min
 
 =================================================================
 ```
