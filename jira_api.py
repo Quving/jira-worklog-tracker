@@ -1,5 +1,8 @@
 # This code sample uses the 'requests' library:
 # http://docs.python-requests.org
+import csv
+import os
+import time
 from datetime import datetime
 
 import arrow
@@ -50,6 +53,7 @@ class JiraApi:
     def get_all_worklogs_from_issues_between(self, issues: list, from_dt: datetime, to_dt: datetime):
 
         def is_between(time: datetime, from_dt: datetime, to_dt: datetime):
+
             # add offset-aware
             from_dt = from_dt.replace(tzinfo=None)
             to_dt = to_dt.replace(tzinfo=None)
@@ -61,11 +65,7 @@ class JiraApi:
             else:
                 raise Exception('Value Error: from_dt must be before to_dt.')
 
-        def csv_export(worklogs: dict):
-            import csv
-            import time
-            import os
-
+        def csv_export(worklogs: dict, issues: list):
             export_dir = 'exports'
             if not os.path.exists(export_dir):
                 os.makedirs(export_dir)
@@ -73,14 +73,16 @@ class JiraApi:
             filename = "{}/{}.csv".format(export_dir, time.time())
 
             with open(filename, 'w', newline='') as csvfile:
-                fieldnames = ['Issue-ID', 'Worklog Spent in Minutes']
+                fieldnames = ['Issue-ID', 'Issue-Key', 'Issue-Link', 'Worklog Spent in Minutes']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
                 writer.writeheader()
                 for issue_id, worklog in worklogs.items():
+                    issue = list(filter(lambda x: x['id'] == issue_id, issues))[0]
                     writer.writerow({
                         fieldnames[0]: issue_id,
-                        fieldnames[1]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
+                        fieldnames[1]: issue['key'],
+                        fieldnames[2]: os.path.join(self.jira_server, 'browse', issue['key']),
+                        fieldnames[3]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
                     })
 
         worklogs = self.get_all_worklogs_from_issues(issues=issues)
@@ -95,6 +97,6 @@ class JiraApi:
                         wl_filtered[issue_id] = worklog
 
         # CSV Export
-        csv_export(wl_filtered)
+        csv_export(wl_filtered, issues)
 
         return wl_filtered

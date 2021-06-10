@@ -3,7 +3,7 @@
 [![Build Status](https://drone.quving.com/api/badges/Quving/jira-worklog-tracker/status.svg)](https://drone.quving.com/Quving/jira-worklog-tracker)
 ![](https://img.shields.io/github/languages/top/Quving/jira-worklog-tracker)
 ![](https://img.shields.io/github/v/tag/Quving/jira-worklog-tracker)
-![](https://img.shields.io/github/issues/Quving/jira-worklog-tracker) 
+![](https://img.shields.io/github/issues/Quving/jira-worklog-tracker)
 
 ## Motivation
 This repository contains small scripts to determine the recorded working time in Jira tickets between two specific dates.
@@ -47,6 +47,10 @@ docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:l
 ```
 
 ### Sample Output
+## CSV
+![](https://i.imgur.com/AfdHIDL.png)
+
+## Console
 ```
 Retrieve projects...	1 projects found.
 Retrieve issues...	44 issues found.

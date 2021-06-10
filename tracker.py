@@ -11,7 +11,6 @@ def track(username, token, server, projects, date_from, date_to):
 
     print("Retrieve projects...\t", end="", flush=True)
     all_projects = jira_api.get_all_projects()
-    # all_projects = jira.projects()
     projects = list(filter(lambda x: x['name'].lower() in projects, all_projects))
     print("{} projects found.".format(len(projects)))
 
