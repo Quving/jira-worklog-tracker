@@ -3,32 +3,23 @@
 import argparse
 import datetime
 
-from jira import JIRA
-
 from jira_api import JiraApi
 
 
 def track(username, token, server, projects, date_from, date_to):
-    jira = JIRA(server=server, basic_auth=(username, token))
     jira_api = JiraApi(username=username, token=token, jira_server=server)
 
     print("Retrieve projects...")
-    all_projects = jira.projects()
-    relevant_projects = list(filter(lambda x: x.name.lower() in projects, all_projects))
+    all_projects = jira_api.get_all_projects()
+    # all_projects = jira.projects()
+    relevant_projects = list(filter(lambda x: x['name'].lower() in projects, all_projects))
 
     print("Retrieve issues...")
     issues = []
     for project in relevant_projects:
-        issues += jira.search_issues('project={} and assignee = currentUser()'.format(project.id), maxResults=10000)
+        issues += jira_api.get_all_issues_by_current_user(project_id=project['id'])
 
     print("Retrieve worklogs...")
-
-    # with open("worklogs.json", "w") as file:
-    #     json.dump(worklogs, file, indent=4)
-
-    # with open('worklogs.json', 'r') as file:
-    #     worklogs = json.load(file)
-
     date_from = datetime.datetime.strptime(date_from, '%d.%m.%Y')
     date_to = datetime.datetime.strptime(date_to, '%d.%m.%Y')
 
