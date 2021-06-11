@@ -6,7 +6,7 @@
 ![](https://img.shields.io/github/issues/Quving/jira-worklog-tracker)
 
 ## Motivation
-This repository contains small scripts to determine the recorded working time in Jira tickets between two specific dates.
+This repository contains small scripts (based on [Jira-Api V3](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/)) to determine the recorded working time in Jira tickets between two specific dates.
 
 ## Setup
 
