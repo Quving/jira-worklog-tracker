@@ -42,7 +42,7 @@ docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:v
     -t "3PHwqURul2qB3DjhDp0TAD3F" \
     -s "https://miao.atlassian.net/"  \
     -p "customer mobile app" \
-    -df "08.06.2021"     \
+    -df "08.06.2021" \
     -dt "09.06.2021"
 ```
 

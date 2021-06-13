@@ -38,6 +38,7 @@ def track(username, token, server, projects, date_from, date_to):
         for wl in worklog:
             worklog_time_spent += wl['timeSpentSeconds']
 
+    # Csv export
     csv_export(worklogs=worklogs, issues=issues, jira_server=server)
 
     # Print summary output

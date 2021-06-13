@@ -1,6 +1,5 @@
 # This code sample uses the 'requests' library:
 # http://docs.python-requests.org
-import json
 from datetime import datetime
 
 import arrow
@@ -63,14 +62,10 @@ class JiraApi:
             else:
                 raise ValueError('Value Error: from_dt must be before to_dt.')
 
-        issue_worklogs = self.get_all_worklogs_from_issues(issues=issues)
-
-        # with open('worklogs.json', 'r') as file:
-        #     issue_worklogs = json.load(file)
+        worklogs_detail = self.get_all_worklogs_from_issues(issues=issues)
 
         wl_filtered = {}
-
-        for issue_id, worklogs in issue_worklogs.items():
+        for issue_id, worklogs in worklogs_detail.items():
             for worklog in worklogs:
                 dt = arrow.get(worklog['started']).datetime
                 if is_between(time=dt, from_dt=from_dt, to_dt=to_dt):
@@ -79,5 +74,4 @@ class JiraApi:
 
                     wl_filtered[issue_id].append(worklog)
 
-        # CSV Export
         return wl_filtered
