@@ -1,8 +1,6 @@
 # This code sample uses the 'requests' library:
 # http://docs.python-requests.org
-import csv
-import os
-import time
+import json
 from datetime import datetime
 
 import arrow
@@ -47,56 +45,39 @@ class JiraApi:
         for issue in issues:
             url = "{}/rest/api/3/issue/{}/worklog".format(self.jira_server, issue['id'])
             response = requests.request("GET", url, headers=JiraApi.REQUEST_HEADER, auth=self.auth)
+            if response.status_code != 200:
+                print(response.status_code)
             worklogs[issue['id']] = response.json()['worklogs']
         return worklogs
 
     def get_all_worklogs_from_issues_between(self, issues: list, from_dt: datetime, to_dt: datetime):
-
         def is_between(time: datetime, from_dt: datetime, to_dt: datetime):
-
             # add offset-aware
-            from_dt = from_dt.replace(tzinfo=None)
-            to_dt = to_dt.replace(tzinfo=None)
-            time = time.replace(tzinfo=None)
+            from_dt1 = from_dt.replace(tzinfo=None)
+            to_dt1 = to_dt.replace(tzinfo=None)
+            time1 = time.replace(tzinfo=None)
 
             # from_dt must be before to_dt
-            if from_dt < to_dt:
-                return from_dt <= time and to_dt >= time
+            if from_dt1 < to_dt1:
+                return from_dt1 <= time1 and to_dt1 >= time1
             else:
-                raise Exception('Value Error: from_dt must be before to_dt.')
+                raise ValueError('Value Error: from_dt must be before to_dt.')
 
-        def csv_export(worklogs: dict, issues: list):
-            export_dir = 'exports'
-            if not os.path.exists(export_dir):
-                os.makedirs(export_dir)
+        issue_worklogs = self.get_all_worklogs_from_issues(issues=issues)
 
-            filename = "{}/{}.csv".format(export_dir, time.time())
+        # with open('worklogs.json', 'r') as file:
+        #     issue_worklogs = json.load(file)
 
-            with open(filename, 'w', newline='') as csvfile:
-                fieldnames = ['Issue-ID', 'Issue-Key', 'Issue-Link', 'Worklog Spent in Minutes']
-                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                writer.writeheader()
-                for issue_id, worklog in worklogs.items():
-                    issue = list(filter(lambda x: x['id'] == issue_id, issues))[0]
-                    writer.writerow({
-                        fieldnames[0]: issue_id,
-                        fieldnames[1]: issue['key'],
-                        fieldnames[2]: os.path.join(self.jira_server, 'browse', issue['key'].lower()),
-                        fieldnames[3]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
-                    })
-
-        worklogs = self.get_all_worklogs_from_issues(issues=issues)
         wl_filtered = {}
-        for issue_id, worklog in worklogs.items():
-            for wl in worklog:
-                dt = arrow.get(wl['started']).datetime
+
+        for issue_id, worklogs in issue_worklogs.items():
+            for worklog in worklogs:
+                dt = arrow.get(worklog['started']).datetime
                 if is_between(time=dt, from_dt=from_dt, to_dt=to_dt):
-                    if issue_id in wl_filtered:
-                        wl_filtered[issue_id] += worklog
-                    else:
-                        wl_filtered[issue_id] = worklog
+                    if issue_id not in wl_filtered:
+                        wl_filtered[issue_id] = []
+
+                    wl_filtered[issue_id].append(worklog)
 
         # CSV Export
-        csv_export(wl_filtered, issues)
-
         return wl_filtered

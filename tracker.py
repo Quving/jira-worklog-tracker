@@ -4,6 +4,7 @@ import argparse
 import datetime
 
 from jira_api import JiraApi
+from util import csv_export
 
 
 def track(username, token, server, projects, date_from, date_to):
@@ -29,12 +30,15 @@ def track(username, token, server, projects, date_from, date_to):
         from_dt=datetime.datetime.combine(date_from, datetime.datetime.min.time()),
         to_dt=datetime.datetime.combine(date_to, datetime.datetime.min.time())
     )
+
     print("{} worklogs found.".format(len([x for x in worklogs.values()])))
 
     worklog_time_spent = 0
     for worklog in worklogs.values():
         for wl in worklog:
             worklog_time_spent += wl['timeSpentSeconds']
+
+    csv_export(worklogs=worklogs, issues=issues, jira_server=server)
 
     # Print summary output
     print("=================================================================")
@@ -59,7 +63,7 @@ if __name__ == '__main__':
     parser.add_argument('-dt', '--date_to', help='Date to (e.g. "tt.mm.yyy")', required=True)
 
     args = parser.parse_args()
-    track(
+    response = track(
         username=args.username,
         token=args.token,
         server=args.server,
@@ -67,3 +71,6 @@ if __name__ == '__main__':
         date_from=args.date_from,
         date_to=args.date_to,
     )
+
+    exit(1)
+    # csv_export(response['worklogs'], response['issues'], args.server)
