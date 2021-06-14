@@ -11,7 +11,7 @@ def csv_export(worklogs: dict, issues: list, jira_server):
     filename = "{}/{}.csv".format(export_dir, time.time())
 
     with open(filename, 'w', newline='') as csvfile:
-        fieldnames = ['Issue-ID', 'Issue-Key', 'Issue-Link', 'Worklog Spent in Minutes']
+        fieldnames = ['Issue-ID', 'Issue-Key', 'Issue-Name', 'Issue-Link', 'Worklog Spent in Minutes']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -20,6 +20,7 @@ def csv_export(worklogs: dict, issues: list, jira_server):
             writer.writerow({
                 fieldnames[0]: issue_id,
                 fieldnames[1]: issue['key'],
-                fieldnames[2]: os.path.join(jira_server, 'browse', issue['key'].lower()),
-                fieldnames[3]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
+                fieldnames[2]: issue['fields']['summary'],
+                fieldnames[3]: os.path.join(jira_server, 'browse', issue['key'].lower()),
+                fieldnames[4]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
             })
