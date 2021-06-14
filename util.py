@@ -22,5 +22,5 @@ def csv_export(worklogs: dict, issues: list, jira_server):
                 fieldnames[1]: issue['key'],
                 fieldnames[2]: issue['fields']['summary'],
                 fieldnames[3]: os.path.join(jira_server, 'browse', issue['key'].lower()),
-                fieldnames[4]: sum([x['timeSpentSeconds'] / 60 for x in worklog])
+                fieldnames[4]: int(sum([x['timeSpentSeconds'] / 60 for x in worklog]))
             })
