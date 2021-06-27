@@ -39,7 +39,12 @@ def track(username, token, server, projects, date_from, date_to):
             worklog_time_spent += wl['timeSpentSeconds']
 
     # Csv export
-    csv_export(worklogs=worklogs, issues=issues, jira_server=server)
+    csv_export(
+        worklogs=worklogs,
+        issues=issues,
+        jira_server=server,
+        filename="{}-{}".format(date_from.strftime('%Y%m%d'), date_to.strftime('%Y%m%d'))
+    )
 
     # Print summary output
     print("=================================================================")
@@ -64,7 +69,7 @@ if __name__ == '__main__':
     parser.add_argument('-dt', '--date_to', help='Date to (e.g. "tt.mm.yyy")', required=True)
 
     args = parser.parse_args()
-    response = track(
+    track(
         username=args.username,
         token=args.token,
         server=args.server,
@@ -72,6 +77,3 @@ if __name__ == '__main__':
         date_from=args.date_from,
         date_to=args.date_to,
     )
-
-    exit(1)
-    # csv_export(response['worklogs'], response['issues'], args.server)

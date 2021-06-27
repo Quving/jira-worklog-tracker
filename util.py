@@ -1,14 +1,14 @@
 import csv
 import os
-import time
 
 
-def csv_export(worklogs: dict, issues: list, jira_server):
+def csv_export(worklogs: dict, issues: list, jira_server: str, filename: str):
     export_dir = 'exports'
     if not os.path.exists(export_dir):
         os.makedirs(export_dir)
 
-    filename = "{}/{}.csv".format(export_dir, time.time())
+    filename += '.csv' if not filename.endswith('.csv') else ''
+    filename = export_dir + '/' + filename
 
     with open(filename, 'w', newline='') as csvfile:
         fieldnames = ['Issue-ID', 'Issue-Key', 'Issue-Name', 'Issue-Link', 'Worklog Spent in Minutes']

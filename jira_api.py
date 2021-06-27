@@ -1,6 +1,6 @@
 # This code sample uses the 'requests' library:
 # http://docs.python-requests.org
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import arrow
 import requests
@@ -53,12 +53,12 @@ class JiraApi:
         def is_between(time: datetime, from_dt: datetime, to_dt: datetime):
             # add offset-aware
             from_dt1 = from_dt.replace(tzinfo=None)
-            to_dt1 = to_dt.replace(tzinfo=None)
+            to_dt1 = to_dt.replace(tzinfo=None) + timedelta(days=1)
             time1 = time.replace(tzinfo=None)
 
             # from_dt must be before to_dt
             if from_dt1 < to_dt1:
-                return from_dt1 <= time1 and to_dt1 >= time1
+                return from_dt1 <= time1 <= to_dt1
             else:
                 raise ValueError('Value Error: from_dt must be before to_dt.')
 
