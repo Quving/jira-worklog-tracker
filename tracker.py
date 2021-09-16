@@ -69,6 +69,7 @@ if __name__ == '__main__':
     parser.add_argument('-dt', '--date_to', help='Date to (e.g. "tt.mm.yyy")', required=True)
 
     args = parser.parse_args()
+    print(args)
     track(
         username=args.username,
         token=args.token,
