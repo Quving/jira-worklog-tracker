@@ -37,7 +37,7 @@ or using Docker
 
 
 ```
-docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:v1.0.0 \
+docker run --rm -it -v $(pwd)/exports:/app/exports quving/jira-worklog-tracker:v1.0.1 \
     -u "johndoe@hexample.com" \
     -t "3PHwqURul2qB3DjhDp0TAD3F" \
     -s "https://miao.atlassian.net/"  \
